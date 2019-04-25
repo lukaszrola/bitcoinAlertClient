@@ -38,7 +38,7 @@ public class AlertsView extends JFrame implements AlertsUI {
 
     private JButton addAlertButton() {
         JButton add_alert = new JButton("Add alert");
-        add_alert.addActionListener( l -> alertRestClient.addAlert(alertName.getText(),BigDecimal.ONE,currencyPair.getText()));
+        add_alert.addActionListener( l -> alertRestClient.addAlert(alertName.getText(),limit.getText(),currencyPair.getText()));
         return add_alert;
     }
 
