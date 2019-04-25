@@ -1,10 +1,11 @@
 package bitcoin.view;
 
 import bitcoin.rest.client.AlertRestClient;
+import bitcoin.websocket.client.MyStompSessionHandler;
+import bitcoin.websocket.client.RaisedAlertClient;
 
 import javax.swing.*;
 import java.awt.*;
-import java.math.BigDecimal;
 
 public class AlertsView extends JFrame implements AlertsUI {
     private final AlertRestClient alertRestClient;
@@ -13,7 +14,7 @@ public class AlertsView extends JFrame implements AlertsUI {
     private final TextField limit = new TextField(15);
     private final TextField currencyPair = new TextField(8);
 
-    public AlertsView(AlertRestClient alertRestClient) {
+    private AlertsView(AlertRestClient alertRestClient) {
         this.setTitle("Bitcoin Alerts");
         this.alertRestClient = alertRestClient;
         JPanel panel = new JPanel();
@@ -28,6 +29,21 @@ public class AlertsView extends JFrame implements AlertsUI {
         panel.add(raisedAlerts);
         add(panel);
         setSize(600, 600);
+    }
+
+    public static void createView(AlertRestClient alertRestClient, MyStompSessionHandler stompSessionHandler, RaisedAlertClient raisedAlertClient) {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        SwingUtilities.invokeLater(() -> {
+            AlertsView alertsView = new AlertsView(alertRestClient);
+            stompSessionHandler.setAlertsUI(alertsView);
+            raisedAlertClient.connect();
+            alertsView.setVisible(true);
+        });
     }
 
     private JButton addDeleteButton() {

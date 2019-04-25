@@ -4,10 +4,9 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.client.RestTemplate;
 
-import java.math.BigDecimal;
 import java.util.Map;
 
-public class AlertRestClient {
+public class AlertRestClient implements AlertClient {
     static final String ADD_ALERT_URL = "http://localhost:8080/alert?name={name}&limit={limit}&pair={pair}";
     static final String DELETE_ALERT_URL = "http://localhost:8080/alert?name={name}";
 
@@ -17,10 +16,12 @@ public class AlertRestClient {
         this.restTemplate = restTemplate;
     }
 
+    @Override
     public void addAlert(String alertName, String limit, String currencyPair) {
         restTemplate.put(ADD_ALERT_URL, httpEntity(), addAlertParams(alertName, limit, currencyPair));
     }
 
+    @Override
     public void removeAlert(String alertName) {
         restTemplate.delete(DELETE_ALERT_URL, addDeleteParam(alertName));
     }

@@ -6,20 +6,17 @@ import bitcoin.websocket.client.MyStompSessionHandler;
 import bitcoin.websocket.client.RaisedAlertClient;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 
-import javax.swing.*;
-
 public class BitcoinAlertClient {
-    public static void main(String[] args) {
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
 
-        SwingUtilities.invokeLater(() -> {
-            AlertsView alertsView = new AlertsView(new AlertRestClient(new RestTemplateBuilder().build()));
-            new RaisedAlertClient(new MyStompSessionHandler(alertsView)).connect();
-            alertsView.setVisible(true);
-        });
+    public static void main(String[] args) {
+        new BitcoinAlertClient().startApplication();
+    }
+
+    private  void startApplication(){
+        AlertRestClient alertRestClient = new AlertRestClient(new RestTemplateBuilder().build());
+        MyStompSessionHandler stompSessionHandler = new MyStompSessionHandler();
+        RaisedAlertClient raisedAlertClient = new RaisedAlertClient(stompSessionHandler);
+
+        AlertsView.createView(alertRestClient, stompSessionHandler, raisedAlertClient);
     }
 }
