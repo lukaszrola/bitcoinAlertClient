@@ -8,11 +8,7 @@ import org.springframework.messaging.simp.stomp.*;
 public class MyStompSessionHandler extends StompSessionHandlerAdapter {
     private static final String RAISED_ALERTS_TOPIC = "/raisedAlerts/currentlyRaisedAlerts";
     private static final Logger logger = LoggerFactory.getLogger(MyStompSessionHandler.class);
-    private final AlertsUI alertsUI;
-
-    public MyStompSessionHandler(AlertsUI alertsUI) {
-        this.alertsUI = alertsUI;
-    }
+    private AlertsUI alertsUI;
 
     @Override
     public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
@@ -37,4 +33,7 @@ public class MyStompSessionHandler extends StompSessionHandlerAdapter {
         alertsUI.printRaisedAlerts(payload.toString());
     }
 
+    public void setAlertsUI(AlertsUI alertsUI) {
+        this.alertsUI = alertsUI;
+    }
 }

@@ -1,5 +1,6 @@
 package integration;
 
+import bitcoin.rest.client.AlertClient;
 import bitcoin.rest.client.AlertRestClient;
 import bitcoin.view.AlertsUI;
 import bitcoin.websocket.client.MyStompSessionHandler;
@@ -24,17 +25,28 @@ class BitcoinAlertIntegrationTest {
     private static final int ACCEPTABLE_TIMEOUT = 15000;
     @Mock
     private AlertsUI alertsUI;
-    private AlertRestClient alertRestClient;
+    private AlertClient alertClient;
+    private MyStompSessionHandler stompSessionHandler;
 
     @BeforeEach
     void setUp() {
-        new RaisedAlertClient(new MyStompSessionHandler(alertsUI)).connect();
-        alertRestClient = new AlertRestClient(new RestTemplateBuilder().build());
+        connectAlertsUi();
+        initRestClient();
+    }
+
+    private void initRestClient() {
+        alertClient = new AlertRestClient(new RestTemplateBuilder().build());
+    }
+
+    private void connectAlertsUi() {
+        stompSessionHandler = new MyStompSessionHandler();
+        stompSessionHandler.setAlertsUI(alertsUI);
+        new RaisedAlertClient(stompSessionHandler).connect();
     }
 
     @Test
     void sendAlertWithLowLimitAndReceiveNotification() {
-        alertRestClient.addAlert(SOME_ALERT_NAME, SOME_LIMIT, SOME_CURRENCY_PAIR);
+        alertClient.addAlert(SOME_ALERT_NAME, SOME_LIMIT, SOME_CURRENCY_PAIR);
 
         Mockito.verify(alertsUI, Mockito.timeout(ACCEPTABLE_TIMEOUT).atLeastOnce()).printRaisedAlerts(Mockito.anyString());
     }
