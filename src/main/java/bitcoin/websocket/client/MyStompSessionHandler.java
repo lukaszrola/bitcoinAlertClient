@@ -4,7 +4,9 @@ import bitcoin.view.AlertsUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.messaging.simp.stomp.*;
+import org.springframework.stereotype.Component;
 
+@Component
 public class MyStompSessionHandler extends StompSessionHandlerAdapter {
     private static final String RAISED_ALERTS_TOPIC = "/raisedAlerts/currentlyRaisedAlerts";
     private static final Logger logger = LoggerFactory.getLogger(MyStompSessionHandler.class);

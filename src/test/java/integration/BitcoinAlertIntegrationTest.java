@@ -35,7 +35,7 @@ class BitcoinAlertIntegrationTest {
     }
 
     private void initRestClient() {
-        alertClient = new AlertRestClient(new RestTemplateBuilder().build());
+        alertClient = new AlertRestClient();
     }
 
     private void connectAlertsUi() {

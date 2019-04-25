@@ -2,6 +2,7 @@ package bitcoin.websocket.client;
 
 import org.springframework.messaging.converter.StringMessageConverter;
 import org.springframework.messaging.simp.stomp.StompSessionHandler;
+import org.springframework.stereotype.Component;
 import org.springframework.web.socket.client.WebSocketClient;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
@@ -12,6 +13,7 @@ import org.springframework.web.socket.sockjs.client.WebSocketTransport;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class RaisedAlertClient {
     private static final String RAISED_ALERTS_WEBSOCKET_ENDPOINT = "ws://localhost:8080/alertsSender";
     private final StompSessionHandler stompSessionHandler;

@@ -1,19 +1,22 @@
 package bitcoin.rest.client;
 
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Map;
 
+@Component
 public class AlertRestClient implements AlertClient {
     static final String ADD_ALERT_URL = "http://localhost:8080/alert?name={name}&limit={limit}&pair={pair}";
     static final String DELETE_ALERT_URL = "http://localhost:8080/alert?name={name}";
 
     private final RestTemplate restTemplate;
 
-    public AlertRestClient(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
+    public AlertRestClient() {
+        this.restTemplate = new RestTemplateBuilder().build();
     }
 
     @Override

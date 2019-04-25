@@ -4,19 +4,38 @@ import bitcoin.rest.client.AlertRestClient;
 import bitcoin.view.AlertsView;
 import bitcoin.websocket.client.MyStompSessionHandler;
 import bitcoin.websocket.client.RaisedAlertClient;
-import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-public class BitcoinAlertClient {
+import javax.swing.*;
 
-    public static void main(String[] args) {
-        new BitcoinAlertClient().startApplication();
+@SpringBootApplication
+public class BitcoinAlertClient extends JFrame implements CommandLineRunner {
+    private final AlertRestClient alertRestClient;
+    private final MyStompSessionHandler stompSessionHandler;
+    private final RaisedAlertClient raisedAlertClient;
+
+    @Autowired
+    public BitcoinAlertClient(AlertRestClient alertRestClient, MyStompSessionHandler stompSessionHandler, RaisedAlertClient raisedAlertClient) {
+        this.alertRestClient = alertRestClient;
+        this.stompSessionHandler = stompSessionHandler;
+        this.raisedAlertClient = raisedAlertClient;
     }
 
-    private  void startApplication(){
-        AlertRestClient alertRestClient = new AlertRestClient(new RestTemplateBuilder().build());
-        MyStompSessionHandler stompSessionHandler = new MyStompSessionHandler();
-        RaisedAlertClient raisedAlertClient = new RaisedAlertClient(stompSessionHandler);
+    public static void main(String[] args) {
+        SpringApplication.run(BitcoinAlertClient.class, args);
 
+    }
+
+    @Override
+    public void run(String... args) {
+        this.startApplication();
+
+    }
+
+    private void startApplication() {
         AlertsView.createView(alertRestClient, stompSessionHandler, raisedAlertClient);
     }
 }
