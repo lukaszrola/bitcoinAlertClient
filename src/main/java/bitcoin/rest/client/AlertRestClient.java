@@ -17,7 +17,7 @@ public class AlertRestClient {
         this.restTemplate = restTemplate;
     }
 
-    public void addAlert(String alertName, BigDecimal limit, String currencyPair) {
+    public void addAlert(String alertName, String limit, String currencyPair) {
         restTemplate.put(ADD_ALERT_URL, httpEntity(), addAlertParams(alertName, limit, currencyPair));
     }
 
@@ -39,9 +39,9 @@ public class AlertRestClient {
         return headers;
     }
 
-    private Map<String, String> addAlertParams(String alertName, BigDecimal limit, String currencyPair) {
+    private Map<String, String> addAlertParams(String alertName, String limit, String currencyPair) {
         return Map.of("name", alertName,
-                "limit", limit.toString(),
+                "limit", limit,
                 "pair", currencyPair);
     }
 }

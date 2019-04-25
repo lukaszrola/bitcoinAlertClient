@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
 @RunWith(JUnitPlatform.class)
 class AlertRestClientTest {
     private static final String SOME_ALERT_NAME = "someAlert";
-    private static final BigDecimal SOME_LIMIT = BigDecimal.ONE;
+    private static final String SOME_LIMIT = BigDecimal.ONE.toString();
     private static final String SOME_CURRENCY_PAIR = "BTC-USD";
     private static final String NAME_KEY = "name";
     private static final String LIMIT_KEY = "limit";
@@ -44,7 +44,7 @@ class AlertRestClientTest {
 
         Map<String, String> requestParameters = params.getValue();
         assertThat(requestParameters).containsOnlyKeys(NAME_KEY, LIMIT_KEY, PAIR_KEY);
-        assertThat(requestParameters.values()).containsOnly(SOME_ALERT_NAME, SOME_LIMIT.toString(), SOME_CURRENCY_PAIR);
+        assertThat(requestParameters.values()).containsOnly(SOME_ALERT_NAME, SOME_LIMIT, SOME_CURRENCY_PAIR);
     }
 
     @Test
