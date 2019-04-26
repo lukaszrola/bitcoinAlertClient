@@ -1,7 +1,7 @@
 package bitcoin;
 
 import bitcoin.rest.client.AlertRestClient;
-import bitcoin.view.AlertsView;
+import bitcoin.view.AlertsSwingView;
 import bitcoin.websocket.client.RaisedAlertsHandler;
 import bitcoin.websocket.client.RaisedAlertListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +35,6 @@ public class BitcoinAlertClient extends JFrame implements CommandLineRunner {
     }
 
     private void startApplication() {
-        AlertsView.createView(alertRestClient, raisedAlertsHandler, raisedAlertListener);
+        AlertsSwingView.createView(alertRestClient, raisedAlertsHandler, raisedAlertListener);
     }
 }
