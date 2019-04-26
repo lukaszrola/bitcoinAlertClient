@@ -1,5 +1,6 @@
 package bitcoin.view;
 
+import bitcoin.rest.client.AlertClient;
 import bitcoin.rest.client.AlertRestClient;
 import bitcoin.websocket.client.RaisedAlertsHandler;
 import bitcoin.websocket.client.RaisedAlertListener;
@@ -8,13 +9,13 @@ import javax.swing.*;
 import java.awt.*;
 
 public class AlertsSwingView extends JFrame implements AlertsUI {
-    private final AlertRestClient alertRestClient;
+    private final AlertClient alertRestClient;
     private final TextArea raisedAlerts = new TextArea("", 30, 90);
     private final TextField alertName = new TextField(20);
     private final TextField limit = new TextField(15);
     private final TextField currencyPair = new TextField(8);
 
-    private AlertsSwingView(AlertRestClient alertRestClient) {
+    private AlertsSwingView(AlertClient alertRestClient) {
         this.setTitle("Bitcoin Alerts");
         this.alertRestClient = alertRestClient;
         JPanel panel = new JPanel();
@@ -31,7 +32,7 @@ public class AlertsSwingView extends JFrame implements AlertsUI {
         setSize(600, 600);
     }
 
-    public static void createView(AlertRestClient alertRestClient, RaisedAlertsHandler raisedAlertsHandler, RaisedAlertListener raisedAlertListener) {
+    public static void createView(AlertClient alertRestClient, RaisedAlertsHandler raisedAlertsHandler, RaisedAlertListener raisedAlertListener) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ex) {

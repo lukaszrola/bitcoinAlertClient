@@ -1,5 +1,6 @@
 package bitcoin;
 
+import bitcoin.rest.client.AlertClient;
 import bitcoin.rest.client.AlertRestClient;
 import bitcoin.view.AlertsSwingView;
 import bitcoin.websocket.client.RaisedAlertsHandler;
@@ -13,12 +14,12 @@ import javax.swing.*;
 
 @SpringBootApplication
 public class BitcoinAlertClient extends JFrame implements CommandLineRunner {
-    private final AlertRestClient alertRestClient;
+    private final AlertClient alertRestClient;
     private final RaisedAlertsHandler raisedAlertsHandler;
     private final RaisedAlertListener raisedAlertListener;
 
     @Autowired
-    public BitcoinAlertClient(AlertRestClient alertRestClient, RaisedAlertsHandler raisedAlertsHandler, RaisedAlertListener raisedAlertListener) {
+    public BitcoinAlertClient(AlertClient alertRestClient, RaisedAlertsHandler raisedAlertsHandler, RaisedAlertListener raisedAlertListener) {
         this.alertRestClient = alertRestClient;
         this.raisedAlertsHandler = raisedAlertsHandler;
         this.raisedAlertListener = raisedAlertListener;
