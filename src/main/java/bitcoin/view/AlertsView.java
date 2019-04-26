@@ -1,7 +1,7 @@
 package bitcoin.view;
 
 import bitcoin.rest.client.AlertRestClient;
-import bitcoin.websocket.client.MyStompSessionHandler;
+import bitcoin.websocket.client.RaisedAlertsHandler;
 import bitcoin.websocket.client.RaisedAlertListener;
 
 import javax.swing.*;
@@ -31,7 +31,7 @@ public class AlertsView extends JFrame implements AlertsUI {
         setSize(600, 600);
     }
 
-    public static void createView(AlertRestClient alertRestClient, MyStompSessionHandler stompSessionHandler, RaisedAlertListener raisedAlertListener) {
+    public static void createView(AlertRestClient alertRestClient, RaisedAlertsHandler raisedAlertsHandler, RaisedAlertListener raisedAlertListener) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ex) {
@@ -40,7 +40,7 @@ public class AlertsView extends JFrame implements AlertsUI {
 
         SwingUtilities.invokeLater(() -> {
             AlertsView alertsView = new AlertsView(alertRestClient);
-            stompSessionHandler.setAlertsUI(alertsView);
+            raisedAlertsHandler.setAlertsUI(alertsView);
             raisedAlertListener.connect();
             alertsView.setVisible(true);
         });

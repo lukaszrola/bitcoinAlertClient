@@ -11,13 +11,13 @@ import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MyStompSessionHandler extends StompSessionHandlerAdapter {
-    private static final Logger logger = LoggerFactory.getLogger(MyStompSessionHandler.class);
+public class RaisedAlertsHandler extends StompSessionHandlerAdapter {
+    private static final Logger logger = LoggerFactory.getLogger(RaisedAlertsHandler.class);
     private static final String WEBSOCKET_TOPIC = "${websocket.raised.alert.topic}";
     private AlertsUI alertsUI;
     private final String raisedAlertsTopic;
 
-    public MyStompSessionHandler(@Value(WEBSOCKET_TOPIC) String raisedAlertsTopic) {
+    public RaisedAlertsHandler(@Value(WEBSOCKET_TOPIC) String raisedAlertsTopic) {
         this.raisedAlertsTopic = raisedAlertsTopic;
     }
 

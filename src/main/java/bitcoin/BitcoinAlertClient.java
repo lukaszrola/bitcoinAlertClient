@@ -2,7 +2,7 @@ package bitcoin;
 
 import bitcoin.rest.client.AlertRestClient;
 import bitcoin.view.AlertsView;
-import bitcoin.websocket.client.MyStompSessionHandler;
+import bitcoin.websocket.client.RaisedAlertsHandler;
 import bitcoin.websocket.client.RaisedAlertListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -14,13 +14,13 @@ import javax.swing.*;
 @SpringBootApplication
 public class BitcoinAlertClient extends JFrame implements CommandLineRunner {
     private final AlertRestClient alertRestClient;
-    private final MyStompSessionHandler stompSessionHandler;
+    private final RaisedAlertsHandler raisedAlertsHandler;
     private final RaisedAlertListener raisedAlertListener;
 
     @Autowired
-    public BitcoinAlertClient(AlertRestClient alertRestClient, MyStompSessionHandler stompSessionHandler, RaisedAlertListener raisedAlertListener) {
+    public BitcoinAlertClient(AlertRestClient alertRestClient, RaisedAlertsHandler raisedAlertsHandler, RaisedAlertListener raisedAlertListener) {
         this.alertRestClient = alertRestClient;
-        this.stompSessionHandler = stompSessionHandler;
+        this.raisedAlertsHandler = raisedAlertsHandler;
         this.raisedAlertListener = raisedAlertListener;
     }
 
@@ -35,6 +35,6 @@ public class BitcoinAlertClient extends JFrame implements CommandLineRunner {
     }
 
     private void startApplication() {
-        AlertsView.createView(alertRestClient, stompSessionHandler, raisedAlertListener);
+        AlertsView.createView(alertRestClient, raisedAlertsHandler, raisedAlertListener);
     }
 }
