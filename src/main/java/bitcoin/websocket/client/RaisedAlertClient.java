@@ -1,7 +1,9 @@
 package bitcoin.websocket.client;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.converter.StringMessageConverter;
 import org.springframework.messaging.simp.stomp.StompSessionHandler;
+import org.springframework.stereotype.Component;
 import org.springframework.web.socket.client.WebSocketClient;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
@@ -12,12 +14,14 @@ import org.springframework.web.socket.sockjs.client.WebSocketTransport;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class RaisedAlertClient {
-    private static final String RAISED_ALERTS_WEBSOCKET_ENDPOINT = "ws://localhost:8080/alertsSender";
     private final StompSessionHandler stompSessionHandler;
+    private final String raisedAlertsWebsocketEndpoint;
 
-    public RaisedAlertClient(StompSessionHandler stompSessionHandler) {
+    public RaisedAlertClient(StompSessionHandler stompSessionHandler, @Value("${websocket.raised.alert.endpoint}") String raisedAlertsWebsocketEndpoint) {
         this.stompSessionHandler = stompSessionHandler;
+        this.raisedAlertsWebsocketEndpoint = raisedAlertsWebsocketEndpoint;
     }
 
     public void connect(){
@@ -28,5 +32,5 @@ public class RaisedAlertClient {
 
         stompClient.setMessageConverter(new StringMessageConverter());
 
-        stompClient.connect(RAISED_ALERTS_WEBSOCKET_ENDPOINT, stompSessionHandler);}
+        stompClient.connect(raisedAlertsWebsocketEndpoint, stompSessionHandler);}
 }

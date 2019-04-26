@@ -1,29 +1,38 @@
 package bitcoin.rest.client;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Map;
 
+@Component
 public class AlertRestClient implements AlertClient {
-    static final String ADD_ALERT_URL = "http://localhost:8080/alert?name={name}&limit={limit}&pair={pair}";
-    static final String DELETE_ALERT_URL = "http://localhost:8080/alert?name={name}";
+
+    private static final String HOST_URL = "${rest.alert.host.adres}";
+    private static final String ADD_REQUEST = "/alert?name={name}&limit={limit}&pair={pair}";
+    private static final String DELETE_REQUEST = "/alert?name={name}";
 
     private final RestTemplate restTemplate;
+    private final String addAlertUrl;
+    private final String deleteAlertUrl;
 
-    public AlertRestClient(RestTemplate restTemplate) {
+    public AlertRestClient(RestTemplate restTemplate, @Value(HOST_URL) String hostUrl) {
         this.restTemplate = restTemplate;
+        addAlertUrl = hostUrl + ADD_REQUEST;
+        deleteAlertUrl = hostUrl + DELETE_REQUEST;
     }
 
     @Override
     public void addAlert(String alertName, String limit, String currencyPair) {
-        restTemplate.put(ADD_ALERT_URL, httpEntity(), addAlertParams(alertName, limit, currencyPair));
+        restTemplate.put(addAlertUrl, httpEntity(), addAlertParams(alertName, limit, currencyPair));
     }
 
     @Override
     public void removeAlert(String alertName) {
-        restTemplate.delete(DELETE_ALERT_URL, addDeleteParam(alertName));
+        restTemplate.delete(deleteAlertUrl, addDeleteParam(alertName));
     }
 
     private Map<String, String> addDeleteParam(String alertName) {

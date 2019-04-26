@@ -13,35 +13,39 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(MockitoExtension.class)
+@ExtendWith(SpringExtension.class)
 @RunWith(JUnitPlatform.class)
+@ContextConfiguration(classes = TestConfiguration.class)
 class BitcoinAlertIntegrationTest {
 
     private static final String SOME_ALERT_NAME = "someAlert";
     private static final String SOME_LIMIT = "1";
     private static final String SOME_CURRENCY_PAIR = "BTC-USD";
     private static final int ACCEPTABLE_TIMEOUT = 15000;
+
     @Mock
     private AlertsUI alertsUI;
+    @Autowired
     private AlertClient alertClient;
+    @Autowired
     private MyStompSessionHandler stompSessionHandler;
+    @Autowired
+    private RaisedAlertClient raisedAlertClient;
 
     @BeforeEach
     void setUp() {
         connectAlertsUi();
-        initRestClient();
     }
 
-    private void initRestClient() {
-        alertClient = new AlertRestClient(new RestTemplateBuilder().build());
-    }
 
     private void connectAlertsUi() {
-        stompSessionHandler = new MyStompSessionHandler();
         stompSessionHandler.setAlertsUI(alertsUI);
-        new RaisedAlertClient(stompSessionHandler).connect();
+        raisedAlertClient.connect();
     }
 
     @Test

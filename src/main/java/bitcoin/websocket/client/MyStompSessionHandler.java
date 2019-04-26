@@ -3,16 +3,27 @@ package bitcoin.websocket.client;
 import bitcoin.view.AlertsUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.messaging.simp.stomp.*;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.messaging.simp.stomp.StompCommand;
+import org.springframework.messaging.simp.stomp.StompHeaders;
+import org.springframework.messaging.simp.stomp.StompSession;
+import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
+import org.springframework.stereotype.Component;
 
+@Component
 public class MyStompSessionHandler extends StompSessionHandlerAdapter {
-    private static final String RAISED_ALERTS_TOPIC = "/raisedAlerts/currentlyRaisedAlerts";
     private static final Logger logger = LoggerFactory.getLogger(MyStompSessionHandler.class);
+    private static final String WEBSOCKET_TOPIC = "${websocket.raised.alert.topic}";
     private AlertsUI alertsUI;
+    private final String raisedAlertsTopic;
+
+    public MyStompSessionHandler(@Value(WEBSOCKET_TOPIC) String raisedAlertsTopic) {
+        this.raisedAlertsTopic = raisedAlertsTopic;
+    }
 
     @Override
     public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
-        session.subscribe(RAISED_ALERTS_TOPIC, this);
+        session.subscribe(raisedAlertsTopic, this);
     }
 
     @Override
