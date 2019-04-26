@@ -1,20 +1,21 @@
 package bitcoin.view;
 
+import bitcoin.rest.client.AlertClient;
 import bitcoin.rest.client.AlertRestClient;
-import bitcoin.websocket.client.MyStompSessionHandler;
-import bitcoin.websocket.client.RaisedAlertClient;
+import bitcoin.websocket.client.RaisedAlertsHandler;
+import bitcoin.websocket.client.RaisedAlertListener;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class AlertsView extends JFrame implements AlertsUI {
-    private final AlertRestClient alertRestClient;
+public class AlertsSwingView extends JFrame implements AlertsUI {
+    private final AlertClient alertRestClient;
     private final TextArea raisedAlerts = new TextArea("", 30, 90);
     private final TextField alertName = new TextField(20);
     private final TextField limit = new TextField(15);
     private final TextField currencyPair = new TextField(8);
 
-    private AlertsView(AlertRestClient alertRestClient) {
+    private AlertsSwingView(AlertClient alertRestClient) {
         this.setTitle("Bitcoin Alerts");
         this.alertRestClient = alertRestClient;
         JPanel panel = new JPanel();
@@ -31,7 +32,7 @@ public class AlertsView extends JFrame implements AlertsUI {
         setSize(600, 600);
     }
 
-    public static void createView(AlertRestClient alertRestClient, MyStompSessionHandler stompSessionHandler, RaisedAlertClient raisedAlertClient) {
+    public static void createView(AlertClient alertRestClient, RaisedAlertsHandler raisedAlertsHandler, RaisedAlertListener raisedAlertListener) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ex) {
@@ -39,10 +40,10 @@ public class AlertsView extends JFrame implements AlertsUI {
         }
 
         SwingUtilities.invokeLater(() -> {
-            AlertsView alertsView = new AlertsView(alertRestClient);
-            stompSessionHandler.setAlertsUI(alertsView);
-            raisedAlertClient.connect();
-            alertsView.setVisible(true);
+            AlertsSwingView alertsSwingView = new AlertsSwingView(alertRestClient);
+            raisedAlertsHandler.setAlertsUI(alertsSwingView);
+            raisedAlertListener.connect();
+            alertsSwingView.setVisible(true);
         });
     }
 

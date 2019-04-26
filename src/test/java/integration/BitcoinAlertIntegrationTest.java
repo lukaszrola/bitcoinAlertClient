@@ -1,10 +1,9 @@
 package integration;
 
 import bitcoin.rest.client.AlertClient;
-import bitcoin.rest.client.AlertRestClient;
 import bitcoin.view.AlertsUI;
-import bitcoin.websocket.client.MyStompSessionHandler;
-import bitcoin.websocket.client.RaisedAlertClient;
+import bitcoin.websocket.client.RaisedAlertsHandler;
+import bitcoin.websocket.client.RaisedAlertListener;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,9 +32,9 @@ class BitcoinAlertIntegrationTest {
     @Autowired
     private AlertClient alertClient;
     @Autowired
-    private MyStompSessionHandler stompSessionHandler;
+    private RaisedAlertsHandler raisedAlertsHandler;
     @Autowired
-    private RaisedAlertClient raisedAlertClient;
+    private RaisedAlertListener raisedAlertListener;
 
     @BeforeEach
     void setUp() {
@@ -44,8 +43,8 @@ class BitcoinAlertIntegrationTest {
 
 
     private void connectAlertsUi() {
-        stompSessionHandler.setAlertsUI(alertsUI);
-        raisedAlertClient.connect();
+        raisedAlertsHandler.setAlertsUI(alertsUI);
+        raisedAlertListener.connect();
     }
 
     @Test
