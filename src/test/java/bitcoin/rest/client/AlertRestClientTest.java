@@ -14,10 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import java.math.BigDecimal;
 import java.util.Map;
 
-import static bitcoin.rest.client.AlertRestClient.ADD_ALERT_URL;
-import static bitcoin.rest.client.AlertRestClient.DELETE_ALERT_URL;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -40,7 +37,7 @@ class AlertRestClientTest {
         alertRestClient.addAlert(SOME_ALERT_NAME, SOME_LIMIT, SOME_CURRENCY_PAIR);
 
         ArgumentCaptor<Map<String, String>> params = ArgumentCaptor.forClass(Map.class);
-        verify(restTemplate).put(eq(ADD_ALERT_URL), Mockito.any(), params.capture());
+        verify(restTemplate).put(Mockito.anyString(), Mockito.any(), params.capture());
 
         Map<String, String> requestParameters = params.getValue();
         assertThat(requestParameters).containsOnlyKeys(NAME_KEY, LIMIT_KEY, PAIR_KEY);
@@ -52,7 +49,7 @@ class AlertRestClientTest {
         alertRestClient.removeAlert(SOME_ALERT_NAME);
 
         ArgumentCaptor<Map<String, String>> params = ArgumentCaptor.forClass(Map.class);
-        verify(restTemplate).delete(eq(DELETE_ALERT_URL), params.capture());
+        verify(restTemplate).delete(Mockito.anyString(), params.capture());
 
         assertThat(params.getValue()).containsOnly(Map.entry(NAME_KEY, SOME_ALERT_NAME));
     }

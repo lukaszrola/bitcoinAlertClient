@@ -26,7 +26,6 @@ public class BitcoinAlertClient extends JFrame implements CommandLineRunner {
 
     public static void main(String[] args) {
         SpringApplication.run(BitcoinAlertClient.class, args);
-
     }
 
     @Override
