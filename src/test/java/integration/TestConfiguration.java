@@ -2,8 +2,8 @@ package integration;
 
 import bitcoin.rest.client.AlertClient;
 import bitcoin.rest.client.AlertRestClient;
-import bitcoin.websocket.client.MyStompSessionHandler;
-import bitcoin.websocket.client.RaisedAlertClient;
+import bitcoin.websocket.client.RaisedAlertsHandler;
+import bitcoin.websocket.client.RaisedAlertsListener;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -18,13 +18,13 @@ import org.springframework.messaging.simp.stomp.StompSessionHandler;
 class TestConfiguration {
 
     @Bean
-    RaisedAlertClient raisedAlertClient(StompSessionHandler stompSessionHandler, @Value("${websocket.raised.alert.endpoint}") String raisedAlertsWebsocketEndpoint) {
-        return new RaisedAlertClient(stompSessionHandler, raisedAlertsWebsocketEndpoint);
+    RaisedAlertsListener raisedAlertClient(StompSessionHandler stompSessionHandler, @Value("${websocket.raised.alert.endpoint}") String raisedAlertsWebsocketEndpoint) {
+        return new RaisedAlertsListener(stompSessionHandler, raisedAlertsWebsocketEndpoint);
     }
 
     @Bean
     StompSessionHandler myStompSessionHandler(@Value("${websocket.raised.alert.topic}") String raisedAlertsTopic) {
-        return new MyStompSessionHandler(raisedAlertsTopic);
+        return new RaisedAlertsHandler(raisedAlertsTopic);
     }
 
     @Bean
