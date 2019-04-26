@@ -15,11 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class RaisedAlertClient {
+public class RaisedAlertListener {
     private final StompSessionHandler stompSessionHandler;
     private final String raisedAlertsWebsocketEndpoint;
 
-    public RaisedAlertClient(StompSessionHandler stompSessionHandler, @Value("${websocket.raised.alert.endpoint}") String raisedAlertsWebsocketEndpoint) {
+    public RaisedAlertListener(StompSessionHandler stompSessionHandler, @Value("${websocket.raised.alert.endpoint}") String raisedAlertsWebsocketEndpoint) {
         this.stompSessionHandler = stompSessionHandler;
         this.raisedAlertsWebsocketEndpoint = raisedAlertsWebsocketEndpoint;
     }
